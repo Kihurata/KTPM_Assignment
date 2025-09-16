@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
@@ -12,6 +13,21 @@ import {
 import { Separator } from "../components/ui/separator";
 
 export const Home = (): JSX.Element => {
+  const [listings, setListings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const apiBase = import.meta.env.VITE_API_URL;
+    fetch(`${apiBase}/listings`)   // 👈 gọi qua Kong, không cần /api/listings nữa
+      .then(res => res.json())
+      .then(json => {
+        console.log('API data từ Kong:', json);
+        // BE (getAllListings) trả mảng thuần, nên check:
+        setListings(Array.isArray(json) ? json : (json.items ?? []));
+      })
+      .catch(err => console.error('API error:', err))
+      .finally(() => setLoading(false));
+  }, []);
   const navigationItems = [
     { label: "Xe mới", href: "#" },
     { label: "Trung tâm Porsche", href: "#" },
@@ -112,6 +128,7 @@ export const Home = (): JSX.Element => {
       src: "/container-15.svg",
       alt: "Social media icon 3",
     },
+
   ];
 
   return (
@@ -247,6 +264,16 @@ export const Home = (): JSX.Element => {
       </section>
 
       {/* Main Content Section */}
+      {!loading && (
+        <>
+          <div>Count: {listings.length}</div>
+          <ul>
+            {listings.map(car => (
+              <li key={car.id}>{car.brand} {car.model_name} ({car.year})</li>
+            ))}
+          </ul>
+        </>
+      )}
       <section className="flex flex-col w-full items-start pt-[30px] pb-10 px-48 bg-white">
         <div className="relative w-full bg-white">
           <header className="w-full flex flex-col items-center bg-white mb-[68px]">

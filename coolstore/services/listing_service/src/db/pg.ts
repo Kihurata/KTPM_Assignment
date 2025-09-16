@@ -1,14 +1,23 @@
+import 'dotenv/config';
 import { Pool } from 'pg';
-let pool: Pool | null = null;
-export function getPool() {
-  if (pool) return pool;
-  pool = new Pool({
-    host: process.env.PGHOST,
-    port: Number(process.env.PGPORT || 5432),
-    database: process.env.PGDATABASE,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    ssl: process.env.PGSSL === 'true' ? { rejectUnauthorized: false } : undefined,
-  });
-  return pool;
+
+function required(name: string) {
+  const v = process.env[name];
+  if (!v) throw new Error(`Missing env ${name}`);
+  return v;
+}
+
+export const pool = new Pool({
+  host: required('PGHOST'),
+  port: Number(required('PGPORT')),
+  user: required('PGUSER'),
+  password: required('PGPASSWORD'),
+  database: required('PGDATABASE'),
+  max: 10,
+  idleTimeoutMillis: 10_000
+});
+
+export async function assertDb() {
+  const r = await pool.query('SELECT 1');
+  if (r.rowCount !== 1) throw new Error('DB connection failed');
 }

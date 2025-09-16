@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  listing_service:
+    build:
+      context: ./services/listing_service
+    volumes:
+      - ./services/listing_service:/app
+    command: ["npm","run","dev"]
+    ports:
+      - "4001:4001"
+    env_file:
+      - ./services/listing_service/.env
+  
+  kong:
+    image: kong:3.6
+    container_name: kong
+    restart: unless-stopped
+    environment:
+      KONG_DATABASE: "off"                                         # DB-less
+      KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000, 0.0.0.0:8443 ssl"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+      KONG_LOG_LEVEL: "info"
+    volumes:
+      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml:ro
+    ports:
+      - "8000:8000"   # proxy (HTTP)
+      - "8443:8443"   # proxy (HTTPS) - tuỳ chọn
+      - "8001:8001"   # admin API (không public ở prod)
+      - "8444:8444"   # admin HTTPS - tuỳ chọn
+    depends_on:
+      - listing_service
+
+volumes:
+  pgdata:

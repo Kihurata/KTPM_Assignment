@@ -1,19 +1,24 @@
-import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
-import images from './routes/images';
+import { assertDb } from './db/pg';
+import listingsRouter from './routes/listings';
 
 const app = express();
-app.use(cors({
-    origin: process.env.CORS_ORIGIN?.split(',').map(s => s.trim()) || true,
-}));
+app.use(cors());
+app.use(express.json());
 
-app.get('/', (_req, res) => {
-  res.json({ service: 'listing-image-service', status: 'running' });
-});
-app.use('/images', images);
+app.get('/health', (_req, res) => res.json({ ok: true }));
+app.use('/api/listings', listingsRouter);
 
-const port = Number(process.env.PORT || 4001);
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+const PORT = Number(process.env.PORT || 3001);
+
+assertDb()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Listing Service running at http://localhost:${PORT}`);
+    });
+  })
+  .catch((e) => {
+    console.error('DB connection failed:', e);
+    process.exit(1);
+  });
