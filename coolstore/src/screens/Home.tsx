@@ -1,18 +1,12 @@
+
 import React from "react";
 import { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
-import { Input } from "../components/ui/input";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "../components/ui/navigation-menu";
-import { Separator } from "../components/ui/separator";
-
+import { Footer } from "../components/ui/footer";
 export const Home = (): JSX.Element => {
+
   const [listings, setListings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -28,14 +22,6 @@ export const Home = (): JSX.Element => {
       .catch(err => console.error('API error:', err))
       .finally(() => setLoading(false));
   }, []);
-  const navigationItems = [
-    { label: "Xe mới", href: "#" },
-    { label: "Trung tâm Porsche", href: "#" },
-    { label: "Dịch vụ", href: "#" },
-    { label: "Về Porsche", href: "#" },
-    { label: "Trạm sạc Porsche", href: "#" },
-    { label: "Tiêu điểm", href: "#" },
-  ];
 
   const heroNavigationItems = [
     { label: "Xe mới" },
@@ -98,105 +84,8 @@ export const Home = (): JSX.Element => {
     },
   ];
 
-  const contactInfo = [
-    {
-      label: "Liên hệ chung:",
-      value: "info@porsche-vietnam.com",
-    },
-    {
-      label: "Dịch vụ Khách hàng:",
-      value: "crm@porsche-vietnam.com",
-    },
-  ];
-
-  const porscheCenters = [
-    "Trung Tâm Porsche Sài Gòn",
-    "Trung Tâm Porsche Hà Nội",
-    "Porsche Studio Hà Nội",
-  ];
-
-  const socialIcons = [
-    {
-      src: "/container-14.svg",
-      alt: "Social media icon 1",
-    },
-    {
-      src: "/container-17.svg",
-      alt: "Social media icon 2",
-    },
-    {
-      src: "/container-15.svg",
-      alt: "Social media icon 3",
-    },
-
-  ];
-
   return (
     <div className="relative w-full bg-white overflow-hidden flex flex-col">
-      {/* Explore Section */}
-      <section className="w-full bg-white border-b border-gray-200">
-        <div className="flex items-center justify-between px-48 py-2.5">
-          <div className="flex items-center gap-[15px]">
-            <div className="flex items-center gap-5 relative">
-              <div className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvnblack text-base tracking-[0] leading-[22.9px]">
-                Các dòng xe
-              </div>
-              <Separator
-                orientation="vertical"
-                className="h-[23px] border-black"
-              />
-            </div>
-
-            <NavigationMenu>
-              <NavigationMenuList className="gap-[30px]">
-                {navigationItems.map((item, index) => (
-                  <NavigationMenuItem key={index}>
-                    <NavigationMenuLink
-                      href={item.href}
-                      className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvnblack text-base tracking-[0] leading-[22.9px] hover:text-porsche-vietnamvnmatisse transition-colors"
-                    >
-                      {item.label}
-                    </NavigationMenuLink>
-                  </NavigationMenuItem>
-                ))}
-              </NavigationMenuList>
-            </NavigationMenu>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2 bg-porsche-vietnamvnporcelain p-2.5 w-[200px]">
-              <div className="relative flex-1">
-                <Input
-                  placeholder="Tìm kiếm"
-                  className="font-porsche-vietnam-vn-semantic-input font-[number:var(--porsche-vietnam-vn-semantic-input-font-weight)] text-porsche-vietnamvnmako text-[length:var(--porsche-vietnam-vn-semantic-input-font-size)] tracking-[var(--porsche-vietnam-vn-semantic-input-letter-spacing)] leading-[var(--porsche-vietnam-vn-semantic-input-line-height)] [font-style:var(--porsche-vietnam-vn-semantic-input-font-style)] border-[#e3e4e4]"
-                />
-              </div>
-              <Button
-                size="icon"
-                className="w-8 h-8 bg-transparent hover:bg-gray-100"
-              >
-                <SearchIcon className="w-4 h-4 text-gray-600" />
-              </Button>
-            </div>
-
-            <div className="bg-porsche-vietnamvnporcelain p-2.5 w-[200px]">
-              <div className="flex items-center justify-between">
-                <span className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvnmatisse text-base tracking-[0] leading-[22.9px]">
-                  Tạo cấu hình xe
-                </span>
-                <div className="flex gap-1">
-                  <div className="w-3 h-3 bg-gray-400 rounded-sm"></div>
-                  <div className="w-3 h-3 bg-gray-400 rounded-sm"></div>
-                </div>
-              </div>
-            </div>
-
-            <Button className="w-[200px] bg-porsche-vietnamvnsan-juan hover:bg-porsche-vietnamvnsan-juan/90 text-white font-porsche-vietnam-vn-semantic-link font-[number:var(--porsche-vietnam-vn-semantic-link-font-weight)] text-[length:var(--porsche-vietnam-vn-semantic-link-font-size)] tracking-[var(--porsche-vietnam-vn-semantic-link-letter-spacing)] leading-[var(--porsche-vietnam-vn-semantic-link-line-height)] [font-style:var(--porsche-vietnam-vn-semantic-link-font-style)] h-[38px]">
-              Liên hệ
-            </Button>
-          </div>
-        </div>
-      </section>
 
       {/* Car Gallery Section */}
       <section className="flex flex-col w-full items-start relative">
@@ -354,112 +243,9 @@ export const Home = (): JSX.Element => {
           </div>
         </div>
       </section>
-
+      <Footer />
       {/* Featured Cars Section */}
-      <section className="w-full relative">
-        <div className="flex flex-col lg:flex-row w-full max-w-[1536px] mx-auto px-12 pt-6 pb-1.5">
-          <div className="flex flex-col w-full lg:w-[1152px] lg:pr-4">
-            <div className="flex flex-col gap-2.5 w-full">
-              <div className="flex flex-col w-full">
-                <h2 className="font-porsche-vietnam-vn-semantic-heading-4 font-[number:var(--porsche-vietnam-vn-semantic-heading-4-font-weight)] text-porsche-vietnamvnblack text-[length:var(--porsche-vietnam-vn-semantic-heading-4-font-size)] tracking-[var(--porsche-vietnam-vn-semantic-heading-4-letter-spacing)] leading-[var(--porsche-vietnam-vn-semantic-heading-4-line-height)] [font-style:var(--porsche-vietnam-vn-semantic-heading-4-font-style)]">
-                  Thông tin liên lạc:
-                </h2>
-              </div>
-
-              <div className="flex flex-col w-full space-y-7">
-                <div className="flex flex-col">
-                  <h3 className="[font-family:'Arial-Bold',Helvetica] font-bold text-porsche-vietnamvnblack text-[13.4px] leading-7 whitespace-nowrap">
-                    Porsche Việt Nam
-                  </h3>
-                </div>
-
-                {contactInfo.map((contact, index) => (
-                  <div key={index} className="flex items-start gap-0">
-                    <span className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvngray text-base leading-6 whitespace-nowrap">
-                      {contact.label}
-                    </span>
-                    <span className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvngray text-base leading-6 whitespace-nowrap px-0 py-[0.5px]">
-                      {contact.value}
-                    </span>
-                  </div>
-                ))}
-
-                <div className="flex flex-col">
-                  <h4 className="font-porsche-vietnam-vn-semantic-strong font-[number:var(--porsche-vietnam-vn-semantic-strong-font-weight)] text-porsche-vietnamvnblack text-[length:var(--porsche-vietnam-vn-semantic-strong-font-size)] tracking-[var(--porsche-vietnam-vn-semantic-strong-letter-spacing)] leading-[var(--porsche-vietnam-vn-semantic-strong-line-height)] whitespace-nowrap [font-style:var(--porsche-vietnam-vn-semantic-strong-font-style)]">
-                    Các Trung Tâm Porsche
-                  </h4>
-                </div>
-
-                {porscheCenters.map((center, index) => (
-                  <div key={index} className="flex flex-col">
-                    <span className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvngray text-base leading-6 whitespace-nowrap px-0 py-[0.5px]">
-                      {center}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="w-full lg:w-[369px] flex flex-col mt-8 lg:mt-0">
-            <div className="flex flex-col space-y-7">
-              <div className="flex flex-col max-w-[324px] w-full">
-                <Button className="flex items-center justify-start pl-[47px] pr-[193.86px] py-[13px] bg-porsche-vietnamvnouter-space text-white hover:bg-porsche-vietnamvnouter-space/90 h-auto relative">
-                  <img
-                    className="absolute w-[26px] h-[26px] left-[13px]"
-                    alt="Share icon"
-                    src="/container-13.svg"
-                  />
-                  <span className="[font-family:'Arial-Regular',Helvetica] font-normal text-base leading-6">
-                    Chia sẻ trang
-                  </span>
-                </Button>
-              </div>
-
-              <div className="flex flex-col">
-                <h3 className="[font-family:'Arial-Regular',Helvetica] font-normal text-porsche-vietnamvnoslo-gray text-xl leading-7 whitespace-nowrap">
-                  Kết nối với Porsche
-                </h3>
-              </div>
-
-              <div className="flex items-start gap-[7.4px] pt-0 pb-[7px] px-0">
-                {socialIcons.map((icon, index) => (
-                  <div key={index} className="relative w-[50px] h-[50px]">
-                    <div className="w-[50px] h-[50px] bg-porsche-vietnamvnouter-space" />
-                    <img
-                      className="absolute w-[50px] h-[50px] top-0 left-0"
-                      alt={icon.alt}
-                      src={icon.src}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <Separator className="w-full bg-porsche-vietnamvnsilver-sand h-px" />
-      </section>
-
-      {/* Navigation Section */}
-      <footer className="w-full bg-porsche-vietnamvnshark px-48 pb-[70px] pt-0">
-        <div className="flex flex-col gap-[23px] border-t border-[#494e51] pt-[30px] pb-[5.68e-14px] px-0 min-h-px">
-          <div className="flex flex-col pt-0 pb-[0.56px] px-0">
-            <p className="mt-[-1.00px] font-porsche-vietnam-vn-arial-narrow font-[number:var(--porsche-vietnam-vn-arial-narrow-font-weight)] text-white text-[length:var(--porsche-vietnam-vn-arial-narrow-font-size)] tracking-[var(--porsche-vietnam-vn-arial-narrow-letter-spacing)] leading-[var(--porsche-vietnam-vn-arial-narrow-line-height)] [font-style:var(--porsche-vietnam-vn-arial-narrow-font-style)]">
-              © Porsche Việt Nam 2024
-            </p>
-          </div>
-
-          <div className="inline-flex px-0 py-[0.5px]">
-            <Button
-              variant="link"
-              className="mt-[-1.00px] [font-family:'Arial-Regular',Helvetica] font-normal text-white text-base tracking-[0] leading-6 whitespace-nowrap p-0 h-auto hover:no-underline"
-            >
-              Chính sách quyền riêng tư
-            </Button>
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 };

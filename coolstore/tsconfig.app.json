@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -24,6 +25,7 @@
 
     /* 👇 Thêm dòng này */
     "types": ["vite/client"]
+    //"noUncheckedSideEffectImports": true
   },
   "include": [
     "src",
