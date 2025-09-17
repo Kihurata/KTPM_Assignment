@@ -21,9 +21,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* 👇 Thêm dòng này */
+    "types": ["vite/client"]
     //"noUncheckedSideEffectImports": true
   },
   "include": [
-    "src"
+    "src",
+    "vite-env.d.ts"   // 👈 include file khai báo env
   ]
 }
