@@ -12,7 +12,7 @@ export const Home = (): JSX.Element => {
   id?: string;
   name: string;
   segment?: string | null;
-  image_url?: string | null;
+  url?: string | null;
   };
 
   const [carModels, setCarModels] = useState<CarModel[]>([]);
@@ -34,16 +34,20 @@ export const Home = (): JSX.Element => {
 
   //load car models for gallery
   useEffect(() => {
-    const apiBase = import.meta.env.VITE_API_URL; // ví dụ http://localhost:3001/api
+    const apiBase = import.meta.env.VITE_API_URL;
     fetch(`${apiBase}/carcatalog/car-models`)
       .then((r) => r.json())
-      .then(json => {
-        console.log('API data car models từ Kong:', json);
-        (rows: CarModel[]) => setCarModels(rows);
+      .then((json) => {
+        console.log("API data car models từ Kong:", json);
+        // Nếu API trả về mảng trực tiếp
+        setCarModels(Array.isArray(json) ? json : json.items ?? []);
       })
       .catch((err) => console.error("API error (car-models):", err))
       .finally(() => setLoadingModels(false));
   }, []);
+
+
+  
   //position for car model grid
   const gridPositions = [
     "col-start-1 row-start-1",
@@ -131,16 +135,6 @@ export const Home = (): JSX.Element => {
       </section>
 
       {/* Main Content Section */}
-      {!loading && (
-        <>
-          <div>Count: {listings.length}</div>
-          <ul>
-            {listings.map(car => (
-              <li key={car.id}>{car.brand} {car.model_name} ({car.year})</li>
-            ))}
-          </ul>
-        </>
-      )}
       <section className="flex flex-col w-full items-start pt-[30px] pb-10 px-48 bg-white">
         <div className="relative w-full bg-white">
           <header className="w-full flex flex-col items-center bg-white mb-[68px]">
@@ -159,9 +153,13 @@ export const Home = (): JSX.Element => {
                   className={`relative w-full h-[575px] border-0 rounded-none overflow-hidden ${gridPositions[index] ?? ""}`}
                 >
                   <CardContent className="p-0 relative w-full h-full">
-                    <div
-                      className="w-full h-full bg-cover bg-center bg-no-repeat"
-                      style={{ backgroundImage: `url(${model.image_url || fallback})` }}
+                    <img
+                      src={model.url || fallback}
+                      alt={model.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"          // Lazy load
+                      decoding="async"        // Giải mã không chặn render
+                      width={840} height={473} // Tránh layout shift (LS)
                     />
                     <div className="absolute bottom-[57px] left-[25px] inline-flex items-center gap-[5.14px] pt-[1.46px] pb-[0.49px] px-0">
                       <img className="relative flex-[0_0_auto]" alt="" src="/container.svg" />
