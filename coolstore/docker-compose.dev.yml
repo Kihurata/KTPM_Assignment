@@ -7,7 +7,7 @@ services:
       - ./services/listing_service:/app
     command: ["npm","run","dev"]
     ports:
-      - "4001:4001"
+      - "3001:3001"
     env_file:
       - ./services/listing_service/.env
   

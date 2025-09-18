@@ -12,6 +12,8 @@ const nav = [
   { label: "Tiêu điểm", href: "/tieu-diem" },
 ];
 
+const currentListingId = "e228062f-5328-44c3-ae02-07de7d830dcd"; // demo
+
 export default function Header() {
   const [open, setOpen] = useState(false);
 
@@ -79,6 +81,12 @@ export default function Header() {
             className="rounded-md bg-[#2B5C8A] px-3 py-2 text-sm text-white hover:bg-[#2B5C8A]/90"
           >
             Liên hệ
+          </Link>
+          <Link
+            to={`/upload-anh/${currentListingId}`}
+            className="rounded-md bg-[#2B5C8A] px-3 py-2 text-sm text-white hover:bg-[#2B5C8A]/90"
+          >
+            Upload Ảnh
           </Link>
         </div>
 
