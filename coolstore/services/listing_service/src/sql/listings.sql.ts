@@ -10,3 +10,4 @@ export const SQL_LIST_ALL = (WHERE: string, ORDER_BY: string) => `
   ${WHERE}
   ${ORDER_BY};
 `;
+

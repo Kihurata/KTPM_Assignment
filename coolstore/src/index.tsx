@@ -4,7 +4,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Home } from "./screens/Home";
 import { ProductListing } from "./screens/ProductListing";
 import Header from "./components/ui/header"; 
-
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
     <BrowserRouter>
