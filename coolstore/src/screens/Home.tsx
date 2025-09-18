@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
 import { Footer } from "../components/ui/footer";
+import { json } from "react-router-dom";
 export const Home = (): JSX.Element => {
 
   const [listings, setListings] = useState<any[]>([]);
@@ -20,10 +21,10 @@ export const Home = (): JSX.Element => {
   // test load data
   useEffect(() => {
     const apiBase = import.meta.env.VITE_API_URL;
-    fetch(`${apiBase}/listings`)   // 
+    fetch(`${apiBase}/carcatalog/car-variant`)   // 
       .then(res => res.json())
       .then(json => {
-        console.log('API data từ Kong:', json);
+        console.log('API data car variant từ Kong:', json);
         // BE (getAllListings) trả mảng thuần, nên check:
         setListings(Array.isArray(json) ? json : (json.items ?? []));
       })
@@ -31,12 +32,15 @@ export const Home = (): JSX.Element => {
       .finally(() => setLoading(false));
   }, []);
 
-  // load car models for gallery
+  //load car models for gallery
   useEffect(() => {
     const apiBase = import.meta.env.VITE_API_URL; // ví dụ http://localhost:3001/api
-    fetch(`${apiBase}/car-models`)
+    fetch(`${apiBase}/carcatalog/car-models`)
       .then((r) => r.json())
-      .then((rows: CarModel[]) => setCarModels(rows))
+      .then(json => {
+        console.log('API data car models từ Kong:', json);
+        (rows: CarModel[]) => setCarModels(rows);
+      })
       .catch((err) => console.error("API error (car-models):", err))
       .finally(() => setLoadingModels(false));
   }, []);

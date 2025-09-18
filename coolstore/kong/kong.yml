@@ -1,8 +1,8 @@
 _format_version: "3.0"
 services:
   - name: listing_service
-    url: http://listing_service:3001/api/listings
+    url: http://listing_service:3001/api/carcatalog
     routes:
-      - name: listing_route
+      - name: carcatalog_route
         paths:
-          - /listings
+          - /carcatalog
