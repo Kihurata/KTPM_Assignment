@@ -1,23 +1,30 @@
+// src/db/pg.ts
 import 'dotenv/config';
 import { Pool } from 'pg';
 
-function required(name: string) {
-  const v = process.env[name];
-  if (!v) throw new Error(`Missing env ${name}`);
-  return v;
-}
-
-export const pool = new Pool({
-  host: required('PGHOST'),
-  port: Number(required('PGPORT')),
-  user: required('PGUSER'),
-  password: required('PGPASSWORD'),
-  database: required('PGDATABASE'),
+const pool = new Pool({
+  host: process.env.PGHOST || '127.0.0.1',
+  port: Number(process.env.PGPORT || 5432),
+  user: process.env.PGUSER || 'postgres',
+  password: process.env.PGPASSWORD,
+  database: process.env.PGDATABASE || 'CarCatalog',
+  ssl: (() => {
+    // PGSSLMODE=disable -> false | require -> { rejectUnauthorized: false } (tuỳ bạn)
+    const mode = (process.env.PGSSLMODE || 'disable').toLowerCase();
+    if (mode === 'disable') return false;
+    return { rejectUnauthorized: false } as any;
+  })(),
+  // optional: tuning
   max: 10,
-  idleTimeoutMillis: 10_000
+  idleTimeoutMillis: 30_000,
+  connectionTimeoutMillis: 10_000,
 });
 
-export async function assertDb() {
-  const r = await pool.query('SELECT 1');
-  if (r.rowCount !== 1) throw new Error('DB connection failed');
-}
+// Đặt search_path để mặc định vào schema car_catalog
+pool.on('connect', (client) => {
+  client.query(`SET search_path TO car_catalog, public;`).catch((e) => {
+    console.error('Failed to set search_path:', e);
+  });
+});
+
+export { pool };

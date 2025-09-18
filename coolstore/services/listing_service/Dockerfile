@@ -21,5 +21,5 @@ RUN npm ci --omit=dev
 COPY --from=build /app/dist ./dist
 # (tùy chọn) copy file .env nếu bạn không dùng env_file trong compose
 # COPY .env ./.env
-EXPOSE 4001
+EXPOSE 3001
 CMD ["node", "dist/index.js"]
